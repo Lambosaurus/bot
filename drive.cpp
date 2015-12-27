@@ -15,10 +15,7 @@ void Drive::init()
   pinMode(PIN_MOTORS_PWM, OUTPUT);
   pinMode(PIN_MOTORS_DIR, OUTPUT);
 
-  hal_master_on = false;
-
-  enabled_flag = true;
-  disable();
+  enabled_flag = false;
 }
 
 
@@ -26,7 +23,7 @@ void Drive::init()
 void Drive::enable()
 {
 
-  if ( (!enabled_flag) && (!error_flag) && hal_master_on)
+  if ( (!enabled_flag) && (!error_flag) && arm_flag)
   {
     enabled_flag = true;
 
@@ -54,30 +51,17 @@ void Drive::disable()
   }
 }
 
-bool Drive::enabled()
+
+void Drive::set_arm(bool arm)
 {
-  return enabled_flag;
+  arm_flag = arm;
 }
 
-
-void Drive::hold_enable()
+void Drive::update()
 {
-  if (enabled_flag)
+  if (enabled_flag && (!arm_flag))
   {
-    enable_timer.zero();
-  }
-}
-
-void Drive::update( bool master_on )
-{
-  hal_master_on = master_on;
-  if (enabled)
-  {
-    if ( (!hal_master_on) || (enable_timer.time() > DRIVE_ENABLE_TIME))
-    {
-      disable();
-      error_flag = true;
-    }
+    disable();
   }
 }
 

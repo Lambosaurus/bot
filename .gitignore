@@ -229,3 +229,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.sln
+bot.vcxproj
+*.filters
+Visual Micro/.bot.vsarduino.h
+*.xml

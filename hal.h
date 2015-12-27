@@ -22,15 +22,21 @@ public:
   void init();
   void update();
 
-  void set_master_on(bool on);
-  bool get_master_on();
+  void set_on(bool on);
+  bool get_on();
 
+  void arm();
+  void maintain_arm();
+  void disarm();
 
   Drive drive;
 
 private:
   
   bool master_on;
+  bool master_arm;
+  Timer arm_timer;
+
   Button master_button;
 
   bool blue_connected;

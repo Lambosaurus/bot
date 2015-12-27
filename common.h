@@ -29,7 +29,7 @@ const byte PIN_BLUE_DETECT = 13;
 #define SERIAL_BLUE Serial2
 
 const unsigned int UPDATE_PERIOD_MS = 5;
-
+const unsigned int ARM_MAINTAIN_PERIOD_MS = 1000;
 
 
 

@@ -90,7 +90,7 @@ bool MinipackInput::unpackError()
 MinipackOutput::MinipackOutput()
 {
   index = 1;
-  packet[0] = '{';
+  packet[0] = MINIPACK_MESSAGE_START;
   packet[1] = 0;
 }
 
@@ -120,7 +120,7 @@ void MinipackOutput::packSigned(byte char_count, int32_t num)
 
 char* MinipackOutput::endPacket()
 {
-  packet[index] = '}';
+  packet[index] = MINIPACK_MESSAGE_END;
   packet[index + 1] = 0;
 
   return packet;

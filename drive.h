@@ -9,9 +9,6 @@
 #include "timer.h"
 
 
-const unsigned int DRIVE_ENABLE_TIME = 500;
-
-
 const byte FRONT_SERVO_MIN = 2000;
 const byte FRONT_SERVO_MAX = 2000;
 const byte BACK_SERVO_MIN = 1000;
@@ -29,13 +26,10 @@ public:
   Drive();
 
   void init();
-  void update(bool master_on);
-
-  void enable();
-  void hold_enable();
-  void disable();
-  bool enabled();
+  void update();
   
+  void set_arm(bool arm);
+
   void turn(float angle);
   void slide(float angle);
   void throttle(float throttle);
@@ -45,6 +39,9 @@ public:
 
 private:
 
+  void enable();
+  void disable();
+
   Vmap throttle_map;
 
   Vmap front_map;
@@ -52,11 +49,9 @@ private:
   Servo front_servo;
   Servo back_servo;
 
-  Timer enable_timer;
-  bool enabled_flag;
-
   bool error_flag;
 
-  bool hal_master_on;
+  bool enabled_flag;
+  bool arm_flag;
 };
 

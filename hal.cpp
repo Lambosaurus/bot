@@ -21,9 +21,9 @@ void HAL::Init()
   pinMode(PIN_BLUE_DETECT, INPUT_PULLDOWN);
 
   drive.Init();
-  
-  pinMode(PIN_MASTER_LED, OUTPUT);
+  power.Init();
 
+  pinMode(PIN_MASTER_LED, OUTPUT);
   master_button.Init(PIN_MASTER_BUTTON);
 }
 
@@ -45,7 +45,7 @@ bool HAL::GetOn()
 
 void HAL::Arm()
 {
-  if (master_on)
+  if ( OkToArm() )
   {
     master_arm = true;
     arm_timer.Zero();
@@ -78,23 +78,21 @@ void HAL::Update()
     master_on = !master_on;
   }
 
-  // master_arm requires master_on
-  master_arm = master_arm && master_on;
-
   if (master_arm)
   {
-    if (arm_timer.Time() > ARM_MAINTAIN_PERIOD_MS)
+    if ( (!OkToArm()) || (arm_timer.Time() > ARM_MAINTAIN_PERIOD_MS))
     {
       master_arm = false;
     }
   }
 
   drive.SetArm(master_arm);
-
+  power.SetArm(master_arm);
 
   digitalWrite(PIN_MASTER_LED, master_on);
 
   drive.Update();
+  power.Update();
 
   blue_connected = digitalRead(PIN_BLUE_DETECT);
   digitalWrite(PIN_LED_BLUE, blue_connected);
@@ -103,7 +101,13 @@ void HAL::Update()
 
 bool HAL::Error()
 {
-  return drive.Error();
+  return drive.Error() || power.Error();
+}
+
+
+inline bool HAL::OkToArm()
+{
+  return master_on && !Error();
 }
 
 

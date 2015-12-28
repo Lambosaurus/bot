@@ -5,6 +5,7 @@
 #include "Energia.h"
 
 #include "drive.h"
+#include "power.h"
 #include "button.h"
 
 #include "vmap.h"
@@ -31,11 +32,14 @@ public:
   bool Armed();
 
   Drive drive;
+  Power power;
 
   bool Error();
 
 private:
   
+  inline bool OkToArm();
+
   bool master_on;
   bool master_arm;
   Timer arm_timer;
@@ -44,7 +48,6 @@ private:
 
   bool blue_connected;
 };
-
 
 
 extern HAL hal;

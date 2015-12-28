@@ -8,7 +8,7 @@
 #include "hal.h"
 #include "minipack.h"
 
-#include "cmd_keys.h"
+#include "commkeys.h"
 
 
 MinipackInput miniin;
@@ -20,7 +20,7 @@ void ProcessComm(byte length)
 
   byte key = miniin.Unpack(1);
 
-  if (key == CMD_ACK) if (length == 1)
+  if (key == CMD_ACK && length == 1)
   {
 
     if (!miniin.UnpackError())
@@ -31,7 +31,7 @@ void ProcessComm(byte length)
     }
   }
 
-  else if (key == CMD_ENABLE) if (length == 2)
+  else if (key == CMD_ENABLE && length == 2)
   {
     byte enable_state = miniin.Unpack(1);
     if (!miniin.UnpackError())
@@ -40,7 +40,7 @@ void ProcessComm(byte length)
     }
   }
 
-  else if (key == CMD_STATUS) if (length == 1)
+  else if (key == CMD_STATUS && length == 1)
   {
     if (!miniin.UnpackError())
     {
@@ -60,7 +60,7 @@ void ProcessComm(byte length)
   else if (hal.GetOn())
   { // commands past this point require master on   
   
-  if (key == CMD_ARM) if (length == 2)
+  if (key == CMD_ARM && length == 2)
   {
     byte arm_cmd = miniin.Unpack(1);
     if (!miniin.UnpackError())
@@ -80,7 +80,7 @@ void ProcessComm(byte length)
     }
   }
 
-  if (key == CMD_THROTTLE) if (length == 3)
+  if (key == CMD_THROTTLE && length == 3)
   {
     short throttle = miniin.UnpackSigned(2);
     if (!miniin.UnpackError())
@@ -89,7 +89,7 @@ void ProcessComm(byte length)
     }
   }
 
-  if (key == CMD_TURN) if (length == 3)
+  if (key == CMD_TURN && length == 3)
   {
     short turn = miniin.UnpackSigned(2);
     if (!miniin.UnpackError())
@@ -98,7 +98,7 @@ void ProcessComm(byte length)
     }
   }
 
-  if (key == CMD_SLIDE) if (length == 3)
+  if (key == CMD_SLIDE && length == 3)
   {
     short slide = miniin.UnpackSigned(2);
     if (!miniin.UnpackError())

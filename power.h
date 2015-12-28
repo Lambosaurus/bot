@@ -15,7 +15,7 @@ const float BATT_SCHMITT_CURRENT_WINDOW = 1.0;
 
 
 // its safe to say that we are running off an external power source here
-const float BATT_NOTPRESENT_VOLTAGE = 1.0 * BATT_CELL_COUNT;
+const float BATT_EXTERNAL_VOLTAGE = 0.5 * BATT_CELL_COUNT;
 
 
 
@@ -40,7 +40,7 @@ public:
   bool error_min_battery;
 
   bool low_battery;
-  bool battery_present;
+  bool external_power;
 
 private:
 

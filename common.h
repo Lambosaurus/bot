@@ -16,6 +16,13 @@ const byte PIN_LED_BLUE = 40;
 const unsigned int ADC_MAX_VALUE = 4096-1;
 const float ADC_MAX_VOLTAGE = 3.3;
 
+
+float AnalogReadVoltage(byte pin)
+{
+  return analogRead(pin) * (ADC_MAX_VOLTAGE / ADC_MAX_VALUE);
+}
+
+
 // ------------ // master button // ------------ //
 const byte PIN_MASTER_BUTTON = 4;
 const byte PIN_MASTER_LED = 3;
@@ -37,6 +44,7 @@ const float BATT_VOLTAGE_SENSE_MULTIPLIER = 6.30; // This seems to be +/- 1%. Is
 // I popped my multimeters 10A fuse while calibrating this....
 // ya, like +/- 10% here... Will need to calibrate again later.
 const float BATT_CURRENT_SENSE_MULTIPLIER = 13.3;
+
 
 
 // ------------ // drive // ------------ //

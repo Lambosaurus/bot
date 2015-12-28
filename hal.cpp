@@ -65,6 +65,10 @@ void HAL::disarm()
   master_arm = false;
 }
 
+bool HAL::armed()
+{
+  return master_arm;
+}
 
 void HAL::update()
 {
@@ -96,6 +100,11 @@ void HAL::update()
   digitalWrite(PIN_LED_BLUE, blue_connected);
 }
 
+
+bool HAL::error()
+{
+  return drive.error();
+}
 
 
 HAL hal;

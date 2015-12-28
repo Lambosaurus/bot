@@ -28,8 +28,11 @@ public:
   void arm();
   void maintain_arm();
   void disarm();
+  bool armed();
 
   Drive drive;
+
+  bool error();
 
 private:
   

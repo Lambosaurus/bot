@@ -38,7 +38,7 @@ byte MinipackInput::give(char ch)
         packet[index] = 0; // null terminate for good measure.
         started = false;
         
-        byte index_copy = index;
+        byte index_copy = index - 2; // because we dont include the brackets as part of the packet
         index = 1;
         return index_copy;
       }

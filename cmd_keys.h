@@ -7,10 +7,10 @@ enum CMD_KEYS {
   CMD_STOP = 0, //
   CMD_ACK,      //
   CMD_ENABLE,   // 1u
-  CMD_CONNECT, // 1u
   CMD_STATUS, //
   
   // master on should be enabled for commands below
+  CMD_ARM, // 1u
   CMD_THROTTLE, // 2s
   CMD_TURN, // 2s
   CMD_SLIDE, // 2s
@@ -30,9 +30,9 @@ enum RESPONSE_KEYS {
 };
 
 enum RESPONSE_STATUS {
-  RESPONSE_BIT_ERROR,
-  RESPONSE_BIT_MASTER_ON,
-  RESPONSE_BIT_DRIVE_ENABLED,
+  RESPONSE_STATUS_BIT_ERROR,
+  RESPONSE_STATUS_BIT_MASTER_ON,
+  RESPONSE_STATUS_BIT_ARMED,
 };
 
 

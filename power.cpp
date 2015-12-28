@@ -48,9 +48,9 @@ void Power::Update()
   low_battery = !schmitt_low_battery.high;
 }
 
+
 void Power::SetArm(bool arm)
 {
-  // power never sleeps
 }
 
 bool Power::Error()
@@ -66,16 +66,4 @@ void Power::ClearError()
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-Power power;
 

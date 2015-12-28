@@ -1,7 +1,6 @@
 #include "vmap.h"
 
 
-
 Vmap::Vmap()
 {
 }
@@ -29,8 +28,6 @@ int Vmap::Map(float value)
   value = CLAMP(value, fmin, 1.0);
   return vmin + (vdelta*value);
 }
-
-
 
 
 

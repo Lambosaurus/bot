@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "Energia.h"
 
 #define CLAMP(x,low,high) ( max( low, min(x,high) ) )
@@ -63,7 +62,5 @@ const unsigned int ARM_MAINTAIN_PERIOD_MS = 1000;
 
 // main loop
 const unsigned int UPDATE_PERIOD_MS = 5;
-
-
 
 

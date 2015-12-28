@@ -6,8 +6,8 @@
 
 #include "drive.h"
 #include "power.h"
-#include "button.h"
 
+#include "button.h"
 #include "vmap.h"
 #include "timer.h"
 
@@ -38,7 +38,7 @@ public:
 
 private:
   
-  inline bool OkToArm();
+  bool OkToArm();
 
   bool master_on;
   bool master_arm;

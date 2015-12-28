@@ -13,12 +13,12 @@ void Timer::Init()
   Zero();
 }
 
-inline void Timer::Zero()
+void Timer::Zero()
 {
   zeroed_time = millis();
 }
 
-inline unsigned long Timer::Time()
+unsigned long Timer::Time()
 {
   return millis() - zeroed_time;
 }
@@ -36,12 +36,12 @@ void Periodic::Init(unsigned long arg_period)
   Zero();
 }
 
-inline void Periodic::Zero()
+void Periodic::Zero()
 {
   next_event = millis() + period;
 }
 
-inline bool Periodic::Elapsed()
+bool Periodic::Elapsed()
 {
   if (millis() > next_event)
   {

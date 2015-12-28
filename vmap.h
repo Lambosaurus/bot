@@ -1,8 +1,6 @@
 #pragma once
 
-
 #include "common.h"
-
 
 class Vmap
 {
@@ -25,6 +23,3 @@ private:
   int vdelta;
 
 };
-
-
-

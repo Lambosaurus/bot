@@ -57,10 +57,10 @@ void Drive::Disable()
 }
 
 
-void Drive::SetArm(bool arm)
+void Drive::SetArm(bool arm_flag)
 {
   // if enabled and disarmed, it should Disarm() on the next Update()
-  armed = arm;
+  armed = arm_flag;
 }
 
 void Drive::Update()

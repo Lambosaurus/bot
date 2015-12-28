@@ -105,7 +105,7 @@ bool HAL::Error()
 }
 
 
-inline bool HAL::OkToArm()
+bool HAL::OkToArm()
 {
   return master_on && !Error();
 }

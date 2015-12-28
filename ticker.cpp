@@ -12,7 +12,7 @@ void Ticker::Init(unsigned int arg_max_ticks)
   tick_max = arg_max_ticks;
 }
 
-inline bool Ticker::Tick()
+bool Ticker::Tick()
 {
   if (++ticks >= tick_max)
   {

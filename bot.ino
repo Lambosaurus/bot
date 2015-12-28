@@ -2,13 +2,20 @@
 #include "Energia.h"
 #include "Servo.h"
 
+
 #include "common.h"
+#include "commkeys.h"
+
 #include "vmap.h"
 #include "timer.h"
-#include "hal.h"
+#include "ticker.h"
+#include "schmitttrigger.h"
+#include "blockaverage.h"
 #include "minipack.h"
 
-#include "commkeys.h"
+#include "hal.h"
+#include "power.h"
+#include "drive.h"
 
 
 MinipackInput miniin;

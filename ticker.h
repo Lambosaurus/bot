@@ -9,7 +9,7 @@ public:
   void Init(unsigned int arg_max_ticks);
 
   // ticks max_tick times, before returning true
-  inline bool Tick();
+  bool Tick();
   bool Tick(unsigned int elapsed);
   void Clear();
 

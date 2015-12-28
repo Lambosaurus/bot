@@ -56,8 +56,3 @@ private:
 
 
 
-
-
-
-extern Power power;
-

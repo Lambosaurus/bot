@@ -28,7 +28,7 @@ public:
   void Init();
   void Update();
   
-  void SetArm(bool arm);
+  void SetArm(bool arm_flag);
 
   void Turn(float angle);
   void Slide(float angle);

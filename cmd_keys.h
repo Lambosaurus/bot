@@ -8,6 +8,7 @@ enum CMD_KEYS {
   CMD_ACK,      //
   CMD_ENABLE,   // 1u
   CMD_STATUS, //
+  CMD_BATT_STATUS, //
   
   // master on should be enabled for commands below
   CMD_ARM, // 1u
@@ -26,13 +27,15 @@ enum CMD_ARM_COMMANDS {
 
 enum RESPONSE_KEYS {
   RESPONSE_ACK,
-  RESPONSE_STATUS,
+  RESPONSE_STATUS, // 1u
+  RESPONSE_BATT_STATUS, // 2u 2u
 };
 
 enum RESPONSE_STATUS {
   RESPONSE_STATUS_BIT_ERROR,
   RESPONSE_STATUS_BIT_MASTER_ON,
   RESPONSE_STATUS_BIT_ARMED,
+  RESPONSE_STATUS_BIT_VOLTAGE_OK,
 };
 
 

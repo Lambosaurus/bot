@@ -8,10 +8,10 @@ class Timer
 public:
   Timer();
 
-  void init();
+  void Init();
 
-  void zero();
-  unsigned long time();
+  void Zero(); // zeros the clock
+  unsigned long Time(); // returns the time elapsed
 
 private:
   unsigned long zeroed_time;
@@ -23,9 +23,9 @@ class Periodic
 public:
   Periodic();
 
-  void init(unsigned long arg_period);
-  void zero();
-  bool elapsed();
+  void Init(unsigned long arg_period);
+  void Zero(); // zeros the clock
+  bool Elapsed(); // returns true if the period has elapsed, and schedules the next time
 private:
   unsigned long next_event;
   unsigned long period;

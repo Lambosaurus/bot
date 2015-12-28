@@ -7,12 +7,12 @@ Ticker::Ticker()
 }
 
 
-void Ticker::init(unsigned int arg_max_ticks)
+void Ticker::Init(unsigned int arg_max_ticks)
 {
   tick_max = arg_max_ticks;
 }
 
-bool Ticker::tick()
+bool Ticker::Tick()
 {
   if (++ticks >= tick_max)
   {
@@ -22,7 +22,7 @@ bool Ticker::tick()
   return false;
 }
 
-bool Ticker::tick(unsigned int elapsed)
+bool Ticker::Tick(unsigned int elapsed)
 {
   unsigned int r = tick_max - ticks;
 
@@ -36,7 +36,7 @@ bool Ticker::tick(unsigned int elapsed)
   return false;
 }
 
-void Ticker::clear()
+void Ticker::Clear()
 {
   ticks = 0;
 }

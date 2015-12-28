@@ -22,15 +22,15 @@ public:
   MinipackInput();
   
   // if a packet is complete: returns the number of chars in the packet
-  byte give(char ch);
+  byte Give(char ch);
   
-  uint32_t unpack(byte char_count);
-  int32_t unpackSigned(byte char_count);
-  bool unpackError();
+  uint32_t Unpack(byte char_count);
+  int32_t UnpackSigned(byte char_count);
+  bool UnpackError();
   
 private:
 
-  byte chr2bits(char ch);
+  byte Chr2Bits(char ch);
 
   bool error; // flag for a read error
   bool started; // flag for if a packet start was detected
@@ -43,14 +43,14 @@ class MinipackOutput {
 public:
   MinipackOutput();
 
-  void newPacket();
-  void pack(byte char_count, uint32_t num);
-  void packSigned(byte char_count, int32_t num);
-  char* endPacket();
+  void NewPacket();
+  void Pack(byte char_count, uint32_t num);
+  void PackSigned(byte char_count, int32_t num);
+  char* EndPacket();
 
 private:
 
-  char bits2chr(byte bits);
+  char Bits2Chr(byte bits);
 
   byte index; // the index of _in_packet being written to
   char packet[MINIPACKET_MAX_PACKET_LENGTH]; // Storage for the read packet

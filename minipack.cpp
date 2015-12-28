@@ -10,7 +10,7 @@ MinipackInput::MinipackInput()
 }
 
 
-byte MinipackInput::give(char ch)
+byte MinipackInput::Give(char ch)
 {
   if ( ch == MINIPACK_MESSAGE_START )
   {
@@ -47,14 +47,14 @@ byte MinipackInput::give(char ch)
   return 0;
 }
 
-byte MinipackInput::chr2bits(char ch)
+byte MinipackInput::Chr2Bits(char ch)
 {
   byte bits = ch - MINIPACK_MESSAGE_ZERO;
   error |= (bits >= MINIPACK_MESSAGE_BASE);
   return bits;
 }
 
-uint32_t MinipackInput::unpack(byte char_count)
+uint32_t MinipackInput::Unpack(byte char_count)
 {
   if (error) { return 0; } // if there is a logged error, then dont waste any time
   
@@ -62,7 +62,7 @@ uint32_t MinipackInput::unpack(byte char_count)
   for ( byte i = 0; i < char_count; i++ )
   {
     // for each char, we read it, then decode it
-    byte bits = chr2bits(packet[index + i]);
+    byte bits = Chr2Bits(packet[index + i]);
     
     num <<= MINIPACK_CHAR_BITS;
     num += bits;
@@ -71,14 +71,14 @@ uint32_t MinipackInput::unpack(byte char_count)
   return num;
 }
 
-int32_t MinipackInput::unpackSigned(byte char_count)
+int32_t MinipackInput::UnpackSigned(byte char_count)
 {
   uint32_t halfway = 1 << ((char_count*MINIPACK_CHAR_BITS) - 1);
 
-  return unpack(char_count) - halfway; 
+  return Unpack(char_count) - halfway; 
 }
 
-bool MinipackInput::unpackError()
+bool MinipackInput::UnpackError()
 {
   return ( (!error) && (packet[index] == MINIPACK_MESSAGE_END) );
 }
@@ -95,30 +95,30 @@ MinipackOutput::MinipackOutput()
 }
 
 
-void MinipackOutput::newPacket()
+void MinipackOutput::NewPacket()
 {
   index = 1;
 }
 
-void MinipackOutput::pack(byte char_count, uint32_t num)
+void MinipackOutput::Pack(byte char_count, uint32_t num)
 {
   byte end_index = index + char_count - 1;
   for (byte i = 0; i < char_count; i++)
   {
     byte bits = num & ((1 << MINIPACK_CHAR_BITS) - 1);
-    packet[end_index - i] = bits2chr(bits);
+    packet[end_index - i] = Bits2Chr(bits);
     num >>= MINIPACK_CHAR_BITS;
   }
   index += char_count;
 }
 
-void MinipackOutput::packSigned(byte char_count, int32_t num)
+void MinipackOutput::PackSigned(byte char_count, int32_t num)
 {
   uint32_t halfway = (char_count*MINIPACK_CHAR_BITS) - 1;
-  pack(char_count, halfway + num);
+  Pack(char_count, halfway + num);
 }
 
-char* MinipackOutput::endPacket()
+char* MinipackOutput::EndPacket()
 {
   packet[index] = MINIPACK_MESSAGE_END;
   packet[index + 1] = 0;
@@ -127,7 +127,7 @@ char* MinipackOutput::endPacket()
 }
 
 
-char MinipackOutput::bits2chr(byte bits)
+char MinipackOutput::Bits2Chr(byte bits)
 {
   return bits + MINIPACK_MESSAGE_ZERO;
 }

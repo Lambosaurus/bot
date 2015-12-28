@@ -6,7 +6,7 @@ Vmap::Vmap()
 {
 }
 
-void Vmap::init_monopolar(int arg_min, int arg_max)
+void Vmap::InitMonopolar(int arg_min, int arg_max)
 {
   vmin = arg_min;
   vmax = arg_max;
@@ -15,7 +15,7 @@ void Vmap::init_monopolar(int arg_min, int arg_max)
   vdelta = vmax - vmin;
 }
 
-void Vmap::init_bipolar(int arg_min, int arg_max)
+void Vmap::InitBipolar(int arg_min, int arg_max)
 {
   vmin = arg_min;
   vmax = arg_max;
@@ -24,7 +24,7 @@ void Vmap::init_bipolar(int arg_min, int arg_max)
   vdelta = (vmax - vmin)/2;
 }
 
-int Vmap::map(float value)
+int Vmap::Map(float value)
 {
   value = CLAMP(value, fmin, 1.0);
   return vmin + (vdelta*value);

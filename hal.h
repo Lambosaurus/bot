@@ -19,20 +19,20 @@ class HAL
 public:
   HAL();
 
-  void init();
-  void update();
+  void Init();
+  void Update();
 
-  void set_on(bool on);
-  bool get_on();
+  void SetOn(bool on);
+  bool GetOn();
 
-  void arm();
-  void maintain_arm();
-  void disarm();
-  bool armed();
+  void Arm();
+  void MaintainArm();
+  void Disarm();
+  bool Armed();
 
   Drive drive;
 
-  bool error();
+  bool Error();
 
 private:
   

@@ -6,11 +6,12 @@ public:
 
   Ticker();
 
-  void init(unsigned int arg_max_ticks);
+  void Init(unsigned int arg_max_ticks);
 
-  bool tick();
-  bool tick(unsigned int elapsed);
-  void clear();
+  // ticks max_tick times, before returning true
+  bool Tick();
+  bool Tick(unsigned int elapsed);
+  void Clear();
 
 private:
   unsigned int ticks;

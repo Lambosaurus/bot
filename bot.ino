@@ -15,112 +15,113 @@ MinipackInput miniin;
 MinipackOutput miniout;
 
 
-void process_comm(byte length)
+void ProcessComm(byte length)
 {
 
-  byte key = miniin.unpack(1);
+  byte key = miniin.Unpack(1);
 
   if (key == CMD_ACK) if (length == 1)
   {
 
-    if (!miniin.unpackError())
+    if (!miniin.UnpackError())
     {
-      miniout.newPacket();
-      miniout.pack(1, RESPONSE_ACK);
-      SERIAL_BLUE.write(miniout.endPacket());
+      miniout.NewPacket();
+      miniout.Pack(1, RESPONSE_ACK);
+      SERIAL_BLUE.write(miniout.EndPacket());
     }
   }
 
   else if (key == CMD_ENABLE) if (length == 2)
   {
-    byte enable_state = miniin.unpack(1);
-    if (!miniin.unpackError())
+    byte enable_state = miniin.Unpack(1);
+    if (!miniin.UnpackError())
     {
-      hal.set_on(enable_state);
+      hal.SetOn(enable_state);
     }
   }
 
   else if (key == CMD_STATUS) if (length == 1)
   {
-    if (!miniin.unpackError())
+    if (!miniin.UnpackError())
     {
       byte status =
-        (hal.error() << RESPONSE_STATUS_BIT_ERROR) ||
-        (hal.get_on() << RESPONSE_STATUS_BIT_MASTER_ON) ||
-        (hal.armed() << RESPONSE_STATUS_BIT_ARMED);
+        (hal.Error() << RESPONSE_STATUS_BIT_ERROR) |
+        (hal.GetOn() << RESPONSE_STATUS_BIT_MASTER_ON) |
+        (hal.Armed() << RESPONSE_STATUS_BIT_ARMED);
 
 
-      miniout.newPacket();
-      miniout.pack(1, status);
-      SERIAL_BLUE.write( miniout.endPacket() );
+      miniout.NewPacket();
+      miniout.Pack(1, RESPONSE_STATUS);
+      miniout.Pack(1, status);
+      SERIAL_BLUE.write( miniout.EndPacket() );
     }
   }
 
-  else if (hal.get_on())
+  else if (hal.GetOn())
   { // commands past this point require master on   
   
   if (key == CMD_ARM) if (length == 2)
   {
-    byte arm_cmd = miniin.unpack(1);
-    if (!miniin.unpackError())
+    byte arm_cmd = miniin.Unpack(1);
+    if (!miniin.UnpackError())
     {
       if (arm_cmd == CMD_ARM_OPEN)
       {
-        hal.arm();
+        hal.Arm();
       }
       else if (arm_cmd == CMD_ARM_MAINTAIN)
       {
-        hal.maintain_arm();
+        hal.MaintainArm();
       }
       else if (arm_cmd == CMD_ARM_CLOSE)
       {
-        hal.disarm();
+        hal.Disarm();
       }
     }
   }
 
   if (key == CMD_THROTTLE) if (length == 3)
   {
-    short throttle = miniin.unpackSigned(2);
-    if (!miniin.unpackError())
+    short throttle = miniin.UnpackSigned(2);
+    if (!miniin.UnpackError())
     {
-      hal.drive.throttle(throttle / 1000.0);
+      hal.drive.Throttle(throttle / 1000.0);
     }
   }
 
   if (key == CMD_TURN) if (length == 3)
   {
-    short turn = miniin.unpackSigned(2);
-    if (!miniin.unpackError())
+    short turn = miniin.UnpackSigned(2);
+    if (!miniin.UnpackError())
     {
-      hal.drive.turn(turn / 1000.0);
+      hal.drive.Turn(turn / 1000.0);
     }
   }
 
   if (key == CMD_SLIDE) if (length == 3)
   {
-    short slide = miniin.unpackSigned(2);
-    if (!miniin.unpackError())
+    short slide = miniin.UnpackSigned(2);
+    if (!miniin.UnpackError())
     {
-      hal.drive.slide(slide / 1000.0);
+      hal.drive.Slide(slide / 1000.0);
     }
   }
 
-  } // if hal.get_on()
+  } // if hal.GetOn()
 
 
 
 }
 
 
-void handle_comms()
+void HandleComms()
 {
   while (SERIAL_BLUE.available())
   {
-    byte packet_length = miniin.give(SERIAL_BLUE.read());
+    byte packet_length = miniin.Give(SERIAL_BLUE.read());
     if (packet_length)
     {
-      process_comm(packet_length);
+      ProcessComm(packet_length);
     }
   }
 }
@@ -130,18 +131,18 @@ Periodic update_periodic;
 
 void setup()
 {
-  hal.init();
+  hal.Init();
 
-  update_periodic.init(UPDATE_PERIOD_MS);
+  update_periodic.Init(UPDATE_PERIOD_MS);
 }
 
 
 
 void loop()
 {
-  hal.update();
+  hal.Update();
 
-  handle_comms();
+  HandleComms();
 
-  while (!update_periodic.elapsed()) {}
+  while (!update_periodic.Elapsed()) {}
 }

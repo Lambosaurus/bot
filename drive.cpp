@@ -6,70 +6,80 @@ Drive::Drive()
 {
 }
 
-void Drive::init()
+void Drive::Init()
 {
-  front_map.init_bipolar(FRONT_SERVO_MIN, FRONT_SERVO_MAX);
-  back_map.init_bipolar(BACK_SERVO_MIN, BACk_SERVO_MAX);
+  front_map.InitBipolar(FRONT_SERVO_MIN, FRONT_SERVO_MAX);
+  back_map.InitBipolar(BACK_SERVO_MIN, BACk_SERVO_MAX);
 
-  throttle_map.init_bipolar(-MOTOR_MAX_POWER, MOTOR_MAX_POWER);
+  throttle_map.InitBipolar(-MOTOR_MAX_POWER, MOTOR_MAX_POWER);
   pinMode(PIN_MOTORS_PWM, OUTPUT);
   pinMode(PIN_MOTORS_DIR, OUTPUT);
 
-  enabled_flag = false;
+  enabled = false;
 }
 
 
 
-void Drive::enable()
+void Drive::Enable()
 {
 
-  if ( (!enabled_flag) && (!error_flag) && arm_flag)
+  if ( (!enabled) && (!Error()) && armed)
   {
-    enabled_flag = true;
+    enabled = true;
 
+    // enable the servos
     front_servo.attach(PIN_FRONT_SERVO);
     back_servo.attach(PIN_BACK_SERVO);
+    
+    Turn(0.0); // center wheels
+    // maybe i could have it return to last
 
-    turn(0.0);
+    // motors off!
     digitalWrite(PIN_MOTORS_PWM, false);
     digitalWrite(PIN_MOTORS_DIR, false);
-
   }
 }
 
-void Drive::disable()
+void Drive::Disable()
 {
-  if (enabled_flag)
+  if (enabled)
   {
-    enabled_flag = false;
+    enabled = false;
 
+    // disable the servos
     front_servo.detach();
     back_servo.detach();
 
+    // motors off!
     digitalWrite(PIN_MOTORS_PWM, false);
     digitalWrite(PIN_MOTORS_DIR, false);
   }
 }
 
 
-void Drive::set_arm(bool arm)
+void Drive::SetArm(bool arm)
 {
-  arm_flag = arm;
+  // if enabled and disarmed, it should Disarm() on the next Update()
+  armed = arm;
 }
 
-void Drive::update()
+void Drive::Update()
 {
-  if (enabled_flag && (!arm_flag))
+  if (enabled && (!armed))
   {
-    disable();
+    Disable();
+  }
+  else if ((!enabled) and armed)
+  {
+    Enable();
   }
 }
 
-void Drive::throttle(float value)
+void Drive::Throttle(float value)
 {
-  if (enabled_flag)
+  if (enabled)
   {
-    int power = throttle_map.map(value);
+    int power = throttle_map.Map(value);
     bool reverse = false;
 
     if (power < 0)
@@ -91,32 +101,31 @@ void Drive::throttle(float value)
   }
 }
 
-void Drive::slide(float value)
+void Drive::Slide(float value)
 {
-  if (enabled_flag)
+  if (enabled)
   {
-    front_servo.writeMicroseconds(front_map.map(value));
-    back_servo.writeMicroseconds(back_map.map(-value));
+    front_servo.writeMicroseconds(front_map.Map(value));
+    back_servo.writeMicroseconds(back_map.Map(-value));
   }
 }
 
-void Drive::turn(float value)
+void Drive::Turn(float value)
 {
-  if (enabled_flag)
+  if (enabled)
   {
-    front_servo.writeMicroseconds(front_map.map(value));
-    back_servo.writeMicroseconds(back_map.map(value));
+    front_servo.writeMicroseconds(front_map.Map(value));
+    back_servo.writeMicroseconds(back_map.Map(value));
   }
 }
 
-bool Drive::error()
+bool Drive::Error()
 {
-  return error_flag;
+  return false;
 }
 
-void Drive::clear_error()
+void Drive::ClearError()
 {
-  error_flag = false;
 }
 
 

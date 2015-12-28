@@ -6,11 +6,11 @@ HAL::HAL()
 {
 }
 
-void HAL::init()
+void HAL::Init()
 {
   master_on = false;
   master_arm = false;
-  arm_timer.init();
+  arm_timer.Init();
 
   pinMode(PIN_LED_RED, OUTPUT);
   pinMode(PIN_LED_GREEN, OUTPUT);
@@ -20,15 +20,15 @@ void HAL::init()
   blue_connected = false;
   pinMode(PIN_BLUE_DETECT, INPUT_PULLDOWN);
 
-  drive.init();
+  drive.Init();
   
   pinMode(PIN_MASTER_LED, OUTPUT);
 
-  master_button.init(PIN_MASTER_BUTTON);
+  master_button.Init(PIN_MASTER_BUTTON);
 }
 
 
-void HAL::set_on(bool on)
+void HAL::SetOn(bool on)
 {
   if (SOFTWARE_MASTER_ON)
   {
@@ -37,42 +37,42 @@ void HAL::set_on(bool on)
 
 }
 
-bool HAL::get_on()
+bool HAL::GetOn()
 {
   return master_on;
 }
 
 
-void HAL::arm()
+void HAL::Arm()
 {
   if (master_on)
   {
     master_arm = true;
-    arm_timer.zero();
+    arm_timer.Zero();
   }
 }
 
-void HAL::maintain_arm()
+void HAL::MaintainArm()
 {
   if (master_arm)
   {
-    arm_timer.zero();
+    arm_timer.Zero();
   }
 }
 
-void HAL::disarm()
+void HAL::Disarm()
 {
   master_arm = false;
 }
 
-bool HAL::armed()
+bool HAL::Armed()
 {
   return master_arm;
 }
 
-void HAL::update()
+void HAL::Update()
 {
-  master_button.update();
+  master_button.Update();
   if (master_button.changed && master_button.pressed)
   {
     master_on = !master_on;
@@ -83,27 +83,27 @@ void HAL::update()
 
   if (master_arm)
   {
-    if (arm_timer.time() > ARM_MAINTAIN_PERIOD_MS)
+    if (arm_timer.Time() > ARM_MAINTAIN_PERIOD_MS)
     {
       master_arm = false;
     }
   }
 
-  drive.set_arm(master_arm);
+  drive.SetArm(master_arm);
 
 
   digitalWrite(PIN_MASTER_LED, master_on);
 
-  drive.update();
+  drive.Update();
 
   blue_connected = digitalRead(PIN_BLUE_DETECT);
   digitalWrite(PIN_LED_BLUE, blue_connected);
 }
 
 
-bool HAL::error()
+bool HAL::Error()
 {
-  return drive.error();
+  return drive.Error();
 }
 
 

@@ -11,9 +11,8 @@ class Button
 public:
   Button();
 
-  void init(byte arg_pin);
-
-  void update();
+  void Init(byte arg_pin);
+  void Update();
 
   bool pressed;
   bool changed;

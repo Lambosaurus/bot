@@ -25,22 +25,22 @@ class Drive
 public:
   Drive();
 
-  void init();
-  void update();
+  void Init();
+  void Update();
   
-  void set_arm(bool arm);
+  void SetArm(bool arm);
 
-  void turn(float angle);
-  void slide(float angle);
-  void throttle(float throttle);
+  void Turn(float angle);
+  void Slide(float angle);
+  void Throttle(float throttle);
 
-  bool error();
-  void clear_error();
+  bool Error();
+  void ClearError();
 
 private:
 
-  void enable();
-  void disable();
+  void Enable();
+  void Disable();
 
   Vmap throttle_map;
 
@@ -49,9 +49,7 @@ private:
   Servo front_servo;
   Servo back_servo;
 
-  bool error_flag;
-
-  bool enabled_flag;
-  bool arm_flag;
+  bool enabled;
+  bool armed;
 };
 

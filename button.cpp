@@ -6,25 +6,25 @@ Button::Button()
 {
 }
 
-void Button::init( byte arg_pin)
+void Button::Init( byte arg_pin)
 {
   pin = arg_pin;
-  ticker.init(DEBOUNCE_TICKS);
+  ticker.Init(DEBOUNCE_TICKS);
   pinMode(pin, INPUT_PULLUP);
   pressed = false;
 
-  update();
+  Update();
   changed = false;
 }
 
-void Button::update()
+void Button::Update()
 {
   bool new_pressed = !digitalRead(pin);
   changed = false;
 
   if (new_pressed != pressed)
   {
-    if (ticker.tick())
+    if (ticker.Tick())
     {
       pressed = new_pressed;
       changed = true;
@@ -32,6 +32,6 @@ void Button::update()
   }
   else
   {
-    ticker.clear();
+    ticker.Clear();
   }
 }

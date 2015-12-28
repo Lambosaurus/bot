@@ -15,11 +15,10 @@ const byte PIN_LED_BLUE = 40;
 const unsigned int ADC_MAX_VALUE = 4096-1;
 const float ADC_MAX_VOLTAGE = 3.3;
 
+float AnalogReadVoltage(byte pin);
 
-float AnalogReadVoltage(byte pin)
-{
-  return analogRead(pin) * (ADC_MAX_VOLTAGE / ADC_MAX_VALUE);
-}
+
+
 
 
 // ------------ // master button // ------------ //

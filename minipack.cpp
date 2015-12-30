@@ -74,8 +74,26 @@ uint32_t MinipackInput::Unpack(byte char_count)
 int32_t MinipackInput::UnpackSigned(byte char_count)
 {
   uint32_t halfway = 1 << ((char_count*MINIPACK_CHAR_BITS) - 1);
-
   return Unpack(char_count) - halfway; 
+}
+
+float MinipackInput::UnpackFloat()
+{
+  uint32_t inum = 0;
+  inum = Chr2Bits(packet[index++]);
+  inum <<= 6;
+  inum |= Chr2Bits(packet[index++]);
+  inum <<= 2;
+
+  byte b3 = Chr2Bits(packet[index++]);
+  inum |= (b3 >> 4) & 0x3;
+
+  bool neg = (b3 & 0x8);
+  byte scalar = b3 & 0x7;
+
+  float num = inum / MINIPACK_FLOAT_SCALAR_TABLE[scalar];
+  num = (neg) ? -num : num;
+  return num;
 }
 
 bool MinipackInput::UnpackError()
@@ -114,8 +132,29 @@ void MinipackOutput::Pack(byte char_count, uint32_t num)
 
 void MinipackOutput::PackSigned(byte char_count, int32_t num)
 {
-  uint32_t halfway = (char_count*MINIPACK_CHAR_BITS) - 1;
+  uint32_t halfway = 1 << ((char_count*MINIPACK_CHAR_BITS) - 1);
   Pack(char_count, halfway + num);
+}
+
+void MinipackOutput::PackFloat(float num)
+{
+  bool neg = num < 0;
+  num = (neg) ? -num : num;
+
+  byte i = 0;
+  while ((i < MINIPACK_FLOAT_MAX_SCALAR) && (num * MINIPACK_FLOAT_SCALAR_TABLE[i+1] < MINIPACK_FLOAT_MAX_MANTISSA))
+  {
+    i++;
+  }
+  
+  uint32_t inum = num*MINIPACK_FLOAT_SCALAR_TABLE[i];
+
+  packet[index+2] = Bits2Chr( ((inum & 0x3) << 4) | (neg << 3) | i );
+  inum >>= 2;
+  packet[index+1] = Bits2Chr( inum & 0x3F );
+  inum >>= 6;
+  packet[index+0] = Bits2Chr( inum & 0x3F );
+  index += 3;
 }
 
 char* MinipackOutput::EndPacket()

@@ -40,12 +40,14 @@ void Power::Update()
   schmitt_battery_present.Update(voltage);
 
 
-  if (schmitt_overvolt.high) { error_overvolt = true; }
-  if (schmitt_overcurrent.high) { error_overcurrent = true; }
-  if (!schmitt_min_battery.high) { error_min_battery = true; }
 
   external_power = !schmitt_battery_present.high;
-  low_battery = !schmitt_low_battery.high;
+  low_battery = !schmitt_low_battery.high && !external_power;
+
+  if (schmitt_overvolt.high) { error_overvolt = true; }
+  if (schmitt_overcurrent.high) { error_overcurrent = true; }
+  if (!schmitt_min_battery.high && !external_power) { error_min_battery = true; }
+
 }
 
 

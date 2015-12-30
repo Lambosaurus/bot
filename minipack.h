@@ -17,6 +17,27 @@ const byte MINIPACK_CHAR_BITS = 6;
 const byte MINIPACK_MAX_CHARS_PER_PACK = 5;
 
 
+
+const byte MINIPACK_FLOAT_CHARS = 3;
+const byte MINIPACK_FLOAT_SCALAR_BITS = 3;
+const byte MINIPACK_FLOAT_SIGN_BITS = 1;
+const byte MINIPACK_FLOAT_MANTISSA_BITS = (MINIPACK_CHAR_BITS * MINIPACK_FLOAT_CHARS) - MINIPACK_FLOAT_SCALAR_BITS - MINIPACK_FLOAT_SIGN_BITS;
+
+const unsigned int MINIPACK_FLOAT_MAX_MANTISSA = (1 << MINIPACK_FLOAT_MANTISSA_BITS) - 1;
+const unsigned int MINIPACK_FLOAT_MAX_SCALAR = (1 << MINIPACK_FLOAT_SCALAR_BITS)-1;
+
+const float MINIPACK_FLOAT_SCALAR_TABLE[MINIPACK_FLOAT_MAX_SCALAR+1] = {
+  0.1,
+  1,
+  10,
+  100,
+  1000,
+  10000,
+  100000,
+  1000000,
+};
+
+
 class MinipackInput {
 public:
   MinipackInput();
@@ -26,6 +47,7 @@ public:
   
   uint32_t Unpack(byte char_count);
   int32_t UnpackSigned(byte char_count);
+  float UnpackFloat();
   bool UnpackError();
   
 private:
@@ -46,6 +68,7 @@ public:
   void NewPacket();
   void Pack(byte char_count, uint32_t num);
   void PackSigned(byte char_count, int32_t num);
+  void PackFloat(float num);
   char* EndPacket();
 
 private:

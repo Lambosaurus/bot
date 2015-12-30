@@ -27,7 +27,7 @@ void ProcessComm(byte length)
 
   byte key = miniin.Unpack(1);
 
-  if (key == CMD_ACK && length == 1)
+  if (key == CMD_ACK) if (length == 1)
   {
 
     if (!miniin.UnpackError())
@@ -38,7 +38,7 @@ void ProcessComm(byte length)
     }
   }
 
-  else if (key == CMD_ENABLE && length == 2)
+  else if (key == CMD_ENABLE) if (length == 2)
   {
     byte enable_state = miniin.Unpack(1);
     if (!miniin.UnpackError())
@@ -47,14 +47,15 @@ void ProcessComm(byte length)
     }
   }
 
-  else if (key == CMD_STATUS && length == 1)
+  else if (key == CMD_STATUS) if (length == 1)
   {
     if (!miniin.UnpackError())
     {
       byte status =
         (hal.Error() << RESPONSE_STATUS_BIT_ERROR) |
         (hal.GetOn() << RESPONSE_STATUS_BIT_MASTER_ON) |
-        (hal.Armed() << RESPONSE_STATUS_BIT_ARMED);
+        (hal.Armed() << RESPONSE_STATUS_BIT_ARMED) |
+        (hal.power.low_battery() << RESPONSE_STATUS_BIT_LOW_VOLTAGE);
 
 
       miniout.NewPacket();
@@ -64,10 +65,22 @@ void ProcessComm(byte length)
     }
   }
 
+  else if (key == CMD_GET_POWER) if (length == 1)
+  {
+    if (!miniin.UnpackError())
+    {
+      miniout.NewPacket();
+      miniout.Pack(1, RESPONSE_GET_POWER);
+      miniout.PackFloat(hal.power.voltage);
+      miniout.PackFloat(hal.power.current);
+      SERIAL_BLUE.write(miniout.EndPacket());
+    }
+  }
+
   else if (hal.GetOn())
   { // commands past this point require master on   
   
-  if (key == CMD_ARM && length == 2)
+  if (key == CMD_ARM) if (length == 2)
   {
     byte arm_cmd = miniin.Unpack(1);
     if (!miniin.UnpackError())
@@ -87,30 +100,30 @@ void ProcessComm(byte length)
     }
   }
 
-  if (key == CMD_THROTTLE && length == 3)
+  else if (key == CMD_THROTTLE) if (length == 3)
   {
-    short throttle = miniin.UnpackSigned(2);
+    float throttle = miniin.UnpackFloat();
     if (!miniin.UnpackError())
     {
-      hal.drive.Throttle(throttle / 1000.0);
+      hal.drive.Throttle(throttle);
     }
   }
 
-  if (key == CMD_TURN && length == 3)
+  else if (key == CMD_TURN) if (length == 3)
   {
-    short turn = miniin.UnpackSigned(2);
+    float turn = miniin.UnpackFloat();
     if (!miniin.UnpackError())
     {
-      hal.drive.Turn(turn / 1000.0);
+      hal.drive.Turn(turn);
     }
   }
 
-  if (key == CMD_SLIDE && length == 3)
+  else if (key == CMD_SLIDE) if (length == 3)
   {
-    short slide = miniin.UnpackSigned(2);
+    float slide = miniin.UnpackFloat();
     if (!miniin.UnpackError())
     {
-      hal.drive.Slide(slide / 1000.0);
+      hal.drive.Slide(slide);
     }
   }
 

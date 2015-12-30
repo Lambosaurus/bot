@@ -3,20 +3,27 @@
 
 
 
+
 enum CMD_KEYS {
-  CMD_STOP = 0, //
   CMD_ACK,      //
   CMD_ENABLE,   // 1u
   CMD_STATUS, //
-  CMD_BATT_STATUS, //
-  
+
+  CMD_GET_ERRS, //
+  CMD_CLEAR_ERRS, // -
+
+  CMD_GET_POWER, //
+
   // master on should be enabled for commands below
   CMD_ARM, // 1u
-  CMD_THROTTLE, // 2s
-  CMD_TURN, // 2s
-  CMD_SLIDE, // 2s
+  CMD_THROTTLE, // f
+  CMD_TURN, // f
+  CMD_SLIDE, // f
 };
 
+
+
+// power reply should be 2u voltage, 2u current
 
 
 enum CMD_ARM_COMMANDS {
@@ -28,14 +35,14 @@ enum CMD_ARM_COMMANDS {
 enum RESPONSE_KEYS {
   RESPONSE_ACK,
   RESPONSE_STATUS, // 1u
-  RESPONSE_BATT_STATUS, // 2u 2u
+  RESPONSE_GET_POWER, // f f
 };
 
 enum RESPONSE_STATUS {
   RESPONSE_STATUS_BIT_ERROR,
   RESPONSE_STATUS_BIT_MASTER_ON,
   RESPONSE_STATUS_BIT_ARMED,
-  RESPONSE_STATUS_BIT_VOLTAGE_OK,
+  RESPONSE_STATUS_BIT_LOW_VOLTAGE,
 };
 
 

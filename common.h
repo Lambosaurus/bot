@@ -19,6 +19,10 @@ float AnalogReadVoltage(byte pin);
 
 
 
+// ------------ // tweeter // ------------ //
+const byte PIN_TWEETER = 19;
+
+
 
 
 // ------------ // master button // ------------ //

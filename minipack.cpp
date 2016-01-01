@@ -98,7 +98,7 @@ float MinipackInput::UnpackFloat()
 
 bool MinipackInput::UnpackError()
 {
-  return ( (!error) && (packet[index] == MINIPACK_MESSAGE_END) );
+  return ( (error) || (packet[index] != MINIPACK_MESSAGE_END) );
 }
 
 

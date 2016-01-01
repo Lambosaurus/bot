@@ -96,6 +96,7 @@ void HAL::Update()
 
   blue_connected = digitalRead(PIN_BLUE_DETECT);
   digitalWrite(PIN_LED_BLUE, blue_connected);
+  digitalWrite(PIN_LED_RED, Error());
 }
 
 

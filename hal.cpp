@@ -106,7 +106,7 @@ void HAL::Update()
   tweeter.SetBatteryAlarm(power.error_min_battery);
   if (TWEETER_ALARM_ON_ERROR)
   { 
-    tweeter.SetErrorAlarm(Error());
+    tweeter.SetErrorAlarm( master_on && Error() );
   }
   
 

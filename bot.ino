@@ -101,21 +101,21 @@ void ProcessComm(byte length)
     }
   }
 
-  else if (key == CMD_CHIRP) {
-    if (length == 2)
-    {
-      byte chirps = miniin.Unpack(1);
-      if (!miniin.UnpackError())
-      {
-        hal.tweeter.Chirp(chirps);
-      }
-    }
-  }
-
   else if (hal.GetOn())
   { // commands past this point require master on   
-  
-    if (key == CMD_ARM) {
+    
+    if (key == CMD_CHIRP) {
+      if (length == 2)
+      {
+        byte chirps = miniin.Unpack(1);
+        if (!miniin.UnpackError())
+        {
+          hal.tweeter.Chirp(chirps);
+        }
+      }
+    }
+
+    else if (key == CMD_ARM) {
       if (length == 2)
       {
         byte arm_cmd = miniin.Unpack(1);

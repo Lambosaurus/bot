@@ -14,10 +14,9 @@ enum CMD_KEYS {
   CMD_SOFT_ERR, // 1u
 
   CMD_GET_POWER, //
-  
-  CMD_CHIRP, // 1u
 
   // master on should be enabled for commands below
+  CMD_CHIRP, // 1u
   CMD_ARM, // 1u
   CMD_THROTTLE, // f
   CMD_TURN, // f

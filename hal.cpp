@@ -12,6 +12,8 @@ void HAL::Init()
   master_arm = false;
   arm_timer.Init();
 
+  soft_error = false;
+
   pinMode(PIN_LED_RED, OUTPUT);
   pinMode(PIN_LED_GREEN, OUTPUT);
   pinMode(PIN_LED_BLUE, OUTPUT);
@@ -22,15 +24,23 @@ void HAL::Init()
 
   drive.Init();
   power.Init();
+  tweeter.Init();
 
   pinMode(PIN_MASTER_LED, OUTPUT);
   master_button.Init(PIN_MASTER_BUTTON);
 }
 
+void HAL::SetSoftError(bool state)
+{
+  if (ALLOW_SOFT_ERROR)
+  {
+    soft_error = state;
+  }
+}
 
 void HAL::SetOn(bool on)
 {
-  if (SOFTWARE_MASTER_ON)
+  if (ALLOW_SOFT_MASTER_ON)
   {
     master_on = on;
   }
@@ -80,7 +90,7 @@ void HAL::Update()
 
   if (master_arm)
   {
-    if ( (!OkToArm()) || (arm_timer.Time() > ARM_MAINTAIN_PERIOD_MS))
+    if ((!OkToArm()) || (arm_timer.Time() > ARM_MAINTAIN_PERIOD_MS))
     {
       master_arm = false;
     }
@@ -88,11 +98,21 @@ void HAL::Update()
 
   drive.SetArm(master_arm);
   power.SetArm(master_arm);
+  tweeter.SetArm(master_arm);
 
   digitalWrite(PIN_MASTER_LED, master_on);
 
+
+  tweeter.SetBatteryAlarm(power.error_min_battery);
+  if (TWEETER_ALARM_ON_ERROR)
+  { 
+    tweeter.SetErrorAlarm(Error());
+  }
+  
+
   drive.Update();
   power.Update();
+  tweeter.Update();
 
   blue_connected = digitalRead(PIN_BLUE_DETECT);
   digitalWrite(PIN_LED_BLUE, blue_connected);
@@ -102,7 +122,7 @@ void HAL::Update()
 
 bool HAL::Error()
 {
-  return drive.Error() || power.Error();
+  return drive.Error() || power.Error() || tweeter.Error() || soft_error;
 }
 
 

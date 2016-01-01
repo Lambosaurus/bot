@@ -6,14 +6,13 @@
 
 #include "drive.h"
 #include "power.h"
+#include "tweeter.h"
 
 #include "button.h"
 #include "vmap.h"
 #include "timer.h"
 
 
-
-const bool SOFTWARE_MASTER_ON = true;
 
 class HAL
 {
@@ -33,12 +32,17 @@ public:
 
   Drive drive;
   Power power;
+  Tweeter tweeter;
 
   bool Error();
+
+  void SetSoftError(bool state);
 
 private:
   
   bool OkToArm();
+
+  bool soft_error;
 
   bool master_on;
   bool master_arm;

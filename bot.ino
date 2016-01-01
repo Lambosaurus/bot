@@ -56,6 +56,17 @@ void ProcessComm(byte length)
     }
   }
 
+  else if (key == CMD_SOFT_ERR) {
+    if (length == 2)
+    {
+      byte error_state = miniin.Unpack(1);
+      if (!miniin.UnpackError())
+      {
+        hal.SetSoftError(error_state);
+      }
+    }
+  }
+
   else if (key == CMD_STATUS) {
     if (length == 1)
     {
@@ -86,6 +97,17 @@ void ProcessComm(byte length)
         miniout.PackFloat(hal.power.voltage);
         miniout.PackFloat(hal.power.current);
         SERIAL_BLUE.write(miniout.EndPacket());
+      }
+    }
+  }
+
+  else if (key == CMD_CHIRP) {
+    if (length == 2)
+    {
+      byte chirps = miniin.Unpack(1);
+      if (!miniin.UnpackError())
+      {
+        hal.tweeter.Chirp(chirps);
       }
     }
   }

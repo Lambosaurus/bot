@@ -23,11 +23,19 @@ float AnalogReadVoltage(byte pin);
 const byte PIN_TWEETER = 19;
 
 
-
-
-// ------------ // master button // ------------ //
+// ------------ // HAL // ------------ //
 const byte PIN_MASTER_BUTTON = 4;
 const byte PIN_MASTER_LED = 3;
+
+const bool TWEETER_ALARM_ON_ERROR = true;
+
+const bool ALLOW_SOFT_ERROR = true;
+const bool ALLOW_SOFT_MASTER_ON = true;
+
+
+const unsigned int ARM_MAINTAIN_PERIOD_MS = 1000;
+const unsigned int UPDATE_PERIOD_MS = 5;
+
 
 
 // ------------ // power // ------------ //
@@ -49,6 +57,7 @@ const float BATT_CURRENT_SENSE_MULTIPLIER = 13.3;
 
 
 
+
 // ------------ // drive // ------------ //
 const byte PIN_FRONT_SERVO = 10;
 const byte PIN_BACK_SERVO = 11;
@@ -56,14 +65,9 @@ const byte PIN_BACK_SERVO = 11;
 const byte PIN_MOTORS_PWM = 12;
 const byte PIN_MOTORS_DIR = 14;
 
-// blue
+// ------------ // blue // ------------ //
 const byte PIN_BLUE_DETECT = 13;
 #define SERIAL_BLUE Serial2
 
-// arm time
-const unsigned int ARM_MAINTAIN_PERIOD_MS = 1000;
-
-// main loop
-const unsigned int UPDATE_PERIOD_MS = 5;
 
 

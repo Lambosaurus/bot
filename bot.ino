@@ -196,6 +196,8 @@ void setup()
 {
   hal.Init();
 
+  Serial.begin(115200);
+
   update_periodic.Init(UPDATE_PERIOD_MS);
 }
 

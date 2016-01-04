@@ -45,7 +45,7 @@ const byte PIN_BATT_CURRENT = 26;
 const byte BATT_CELL_COUNT = 3;
 const float BATT_MAX_CURRENT = 20; // I can go up to 40 safely i think
 
-const float BATT_VOLTAGE_SENSE_MULTIPLIER = 6.30; // This seems to be +/- 1%. Is from a voltage divider of 5.0k 26.8k
+const float BATT_VOLTAGE_SENSE_MULTIPLIER = 6.46; // This seems to be +/- 1%. Is from a voltage divider of 5.0k 26.8k
 
 
 // Current passes through a 0.005 Ohm sense resistor
@@ -54,7 +54,7 @@ const float BATT_VOLTAGE_SENSE_MULTIPLIER = 6.30; // This seems to be +/- 1%. Is
 // I popped my multimeters 10A fuse while calibrating this....
 // ya, like +/- 10% here... Will need to calibrate again later.
 const float BATT_CURRENT_SENSE_MULTIPLIER = 13.3;
-
+const float BATT_CURRENT_SENSE_OFFSET = 0.15;
 
 
 

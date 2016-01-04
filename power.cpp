@@ -29,8 +29,7 @@ void Power::Update()
   voltage = sense_voltage * BATT_VOLTAGE_SENSE_MULTIPLIER;
 
   float sense_current = AnalogReadVoltage(PIN_BATT_CURRENT);
-  current = sense_current * BATT_CURRENT_SENSE_MULTIPLIER;
-
+  current = (sense_current - BATT_CURRENT_SENSE_OFFSET) * BATT_CURRENT_SENSE_MULTIPLIER;
 
   schmitt_overvolt.Update(voltage);
   schmitt_overcurrent.Update(current);

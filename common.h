@@ -49,11 +49,12 @@ const float BATT_VOLTAGE_SENSE_MULTIPLIER = 6.46; // This seems to be +/- 1%. Is
 
 
 // Current passes through a 0.005 Ohm sense resistor
-// So, should be a 16x amplifier, but the result will read as 15x, as the amplifier ground is before the sense resistor
+// So, should be a 31x amplifier, but the result will read as 30x, as the amplifier ground is before the sense resistor
+// BATT_CURRENT_SENSE_MULTIPLIER = (1.0 / (30.0*0.005);
 
 // I popped my multimeters 10A fuse while calibrating this....
 // ya, like +/- 10% here... Will need to calibrate again later.
-const float BATT_CURRENT_SENSE_MULTIPLIER = 13.3;
+const float BATT_CURRENT_SENSE_MULTIPLIER = 6.66;
 const float BATT_CURRENT_SENSE_OFFSET = 0.15;
 
 

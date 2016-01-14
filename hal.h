@@ -35,6 +35,7 @@ public:
   Tweeter tweeter;
 
   bool Error();
+  void ClearErrors();
 
   void SetSoftError(bool state);
 

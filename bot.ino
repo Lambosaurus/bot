@@ -67,6 +67,16 @@ void ProcessComm(byte length)
     }
   }
 
+  else if (key == CMD_CLEAR_ERRS) {
+    if (length == 1)
+    {
+      if (!miniin.UnpackError())
+      {
+        hal.ClearErrors();
+      }
+    }
+  }
+
   else if (key == CMD_STATUS) {
     if (length == 1)
     {
@@ -76,7 +86,8 @@ void ProcessComm(byte length)
           (hal.Error() << RESPONSE_STATUS_BIT_ERROR) |
           (hal.GetOn() << RESPONSE_STATUS_BIT_MASTER_ON) |
           (hal.Armed() << RESPONSE_STATUS_BIT_ARMED) |
-          (hal.power.low_battery << RESPONSE_STATUS_BIT_LOW_VOLTAGE);
+          (hal.power.low_battery << RESPONSE_STATUS_BIT_LOW_VOLTAGE) |
+          (hal.power.external_power << RESPONSE_STATUS_BIT_EXTERNAL_POWER);
 
 
         miniout.NewPacket();

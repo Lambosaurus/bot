@@ -125,6 +125,16 @@ bool HAL::Error()
   return drive.Error() || power.Error() || tweeter.Error() || soft_error;
 }
 
+void HAL::ClearErrors()
+{
+  if (ALLOW_CLEAR_ERRORS)
+  {
+    drive.ClearError();
+    power.ClearError();
+    tweeter.ClearError();
+    soft_error = false;
+  }
+}
 
 bool HAL::OkToArm()
 {

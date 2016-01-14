@@ -4,6 +4,7 @@
 #include "common.h"
 
 #include "schmitttrigger.h"
+#include "transorb.h"
 
 // fully charged voltage should be 4.2 per cell, any more and something funny is going on.
 const float BATT_MAX_VOLTAGE = 4.6 * BATT_CELL_COUNT;
@@ -17,6 +18,8 @@ const float BATT_SCHMITT_CURRENT_WINDOW = 1.0;
 // its safe to say that we are running off an external power source here
 const float BATT_EXTERNAL_VOLTAGE = 0.5 * BATT_CELL_COUNT;
 
+
+const int BATT_TRANSORB_LENGTH = 20; // number of ticks before an error is recognised on the voltages
 
 
 class Power
@@ -51,6 +54,7 @@ private:
   SchmittTrigger schmitt_low_battery;
   SchmittTrigger schmitt_battery_present;
 
+  Transorb transorb_min_battery;
 };
 
 

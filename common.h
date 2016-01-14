@@ -31,7 +31,7 @@ const bool TWEETER_ALARM_ON_ERROR = true;
 
 const bool ALLOW_SOFT_ERROR = true;
 const bool ALLOW_SOFT_MASTER_ON = true;
-
+const bool ALLOW_CLEAR_ERRORS = true;
 
 const unsigned int ARM_MAINTAIN_PERIOD_MS = 1000;
 const unsigned int UPDATE_PERIOD_MS = 5;

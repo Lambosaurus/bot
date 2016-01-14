@@ -12,6 +12,8 @@ Power::Power()
   // these are safe when low, so the window is on the low side
   schmitt_overvolt.Init(BATT_MAX_VOLTAGE - BATT_SCHMITT_VOLTAGE_WINDOW, BATT_LOW_VOLTAGE);
   schmitt_overcurrent.Init(BATT_MAX_CURRENT - BATT_SCHMITT_CURRENT_WINDOW, BATT_MAX_CURRENT);
+
+  transorb_min_battery.Init(BATT_TRANSORB_LENGTH, false);
 }
 
 void Power::Init()
@@ -34,10 +36,10 @@ void Power::Update()
   schmitt_overvolt.Update(voltage);
   schmitt_overcurrent.Update(current);
   schmitt_min_battery.Update(voltage);
+  transorb_min_battery.Update(schmitt_min_battery.high);
 
   schmitt_low_battery.Update(voltage);
   schmitt_battery_present.Update(voltage);
-
 
 
   external_power = !schmitt_battery_present.high;
@@ -45,7 +47,7 @@ void Power::Update()
 
   if (schmitt_overvolt.high) { error_overvolt = true; }
   if (schmitt_overcurrent.high) { error_overcurrent = true; }
-  if (!schmitt_min_battery.high && !external_power) { error_min_battery = true; }
+  if (!transorb_min_battery.high && !external_power) { error_min_battery = true; }
 
 }
 

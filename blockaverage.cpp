@@ -9,9 +9,9 @@ BlockAvg::BlockAvg()
 
 // takes a pointer to the storage array, and the length of the array
 // I could use malloc's here, but I make a point of not doing it.
-void BlockAvg::Init(float * buffer, unsigned int length)
+void BlockAvg::Init(float * buffer_ptr, unsigned int length)
 {
-  buffer = buffer;
+  buffer = buffer_ptr;
   buffer_length = length;
   weight = 1.0 / length;
 
@@ -25,7 +25,7 @@ void BlockAvg::Init(float * buffer, unsigned int length)
 
 void BlockAvg::Flood(float value)
 {
-  sum = value;
+  sum = value*buffer_length;
 
   for (unsigned int i = 0; i < buffer_length; i++)
   {
@@ -34,14 +34,16 @@ void BlockAvg::Flood(float value)
 }
 
 
+
 // This average will very gradually accrue floating point errors
 // So what if I have this schedule its own refreshes?
 void BlockAvg::Add(float value)
 {
   sum -= buffer[index];
-
   buffer[index] = value;
+
   sum += buffer[index];
+
 
   // circular buffer
   index += 1;

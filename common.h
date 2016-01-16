@@ -39,23 +39,20 @@ const unsigned int UPDATE_PERIOD_MS = 5;
 
 
 // ------------ // power // ------------ //
-const byte PIN_BATT_VOLTAGE = 25;
-const byte PIN_BATT_CURRENT = 26;
+const byte PIN_BATT_VOLTAGE = 26;
+const byte PIN_BATT_CURRENT = 25;
 
 const byte BATT_CELL_COUNT = 3;
 const float BATT_MAX_CURRENT = 20; // I can go up to 40 safely i think
 
-const float BATT_VOLTAGE_SENSE_MULTIPLIER = 6.46; // This seems to be +/- 1%. Is from a voltage divider of 5.0k 26.8k
+const float BATT_VOLTAGE_SENSE_MULTIPLIER = 5.534; // This seems to be +/- 1%. Is from a voltage divider of 15.0k 68.8k
 
 
-// Current passes through a 0.005 Ohm sense resistor
-// So, should be a 31x amplifier, but the result will read as 30x, as the amplifier ground is before the sense resistor
-// BATT_CURRENT_SENSE_MULTIPLIER = (1.0 / (30.0*0.005);
+const float BATT_CURRENT_SENSE_AMP = 22.0;
+const float BATT_CURRENT_SENSE_RESISTANCE = 0.005;
 
-// I popped my multimeters 10A fuse while calibrating this....
-// ya, like +/- 10% here... Will need to calibrate again later.
-const float BATT_CURRENT_SENSE_MULTIPLIER = 6.66;
-const float BATT_CURRENT_SENSE_OFFSET = 0.15;
+const float BATT_CURRENT_SENSE_MULTIPLIER = 1.0 / (BATT_CURRENT_SENSE_AMP * BATT_CURRENT_SENSE_RESISTANCE);
+const float BATT_CURRENT_SENSE_OFFSET = 0.17;
 
 
 

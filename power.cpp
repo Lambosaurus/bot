@@ -12,14 +12,14 @@ Power::Power()
   // these are safe when low, so the window is on the low side
   schmitt_overvolt.Init(BATT_MAX_VOLTAGE - BATT_SCHMITT_VOLTAGE_WINDOW, BATT_LOW_VOLTAGE);
   schmitt_overcurrent.Init(BATT_MAX_CURRENT - BATT_SCHMITT_CURRENT_WINDOW, BATT_MAX_CURRENT);
-
-  transorb_min_battery.Init(BATT_TRANSORB_LENGTH, false);
 }
 
 void Power::Init()
 {
   pinMode(PIN_BATT_VOLTAGE, INPUT);
   pinMode(PIN_BATT_CURRENT, INPUT);
+
+  current_average.Init(average_buffer, BATT_VOLTAGE_BUFFER_LENGTH);
 }
 
 void Power::Update()
@@ -31,12 +31,13 @@ void Power::Update()
   voltage = sense_voltage * BATT_VOLTAGE_SENSE_MULTIPLIER;
 
   float sense_current = AnalogReadVoltage(PIN_BATT_CURRENT);
-  current = (sense_current - BATT_CURRENT_SENSE_OFFSET) * BATT_CURRENT_SENSE_MULTIPLIER;
+  
+  current_average.Add( (sense_current - BATT_CURRENT_SENSE_OFFSET) * BATT_CURRENT_SENSE_MULTIPLIER );
+  current = current_average.Average();
 
   schmitt_overvolt.Update(voltage);
   schmitt_overcurrent.Update(current);
   schmitt_min_battery.Update(voltage);
-  transorb_min_battery.Update(schmitt_min_battery.high);
 
   schmitt_low_battery.Update(voltage);
   schmitt_battery_present.Update(voltage);
@@ -47,7 +48,7 @@ void Power::Update()
 
   if (schmitt_overvolt.high) { error_overvolt = true; }
   if (schmitt_overcurrent.high) { error_overcurrent = true; }
-  if (!transorb_min_battery.high && !external_power) { error_min_battery = true; }
+  if (!schmitt_min_battery.high && !external_power) { error_min_battery = true; }
 
 }
 

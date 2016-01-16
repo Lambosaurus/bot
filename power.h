@@ -19,7 +19,7 @@ const float BATT_SCHMITT_CURRENT_WINDOW = 1.0;
 // its safe to say that we are running off an external power source here
 const float BATT_EXTERNAL_VOLTAGE = 0.5 * BATT_CELL_COUNT;
 
-const unsigned int BATT_VOLTAGE_BUFFER_LENGTH = 100;
+const unsigned int BATT_AVG_LENGTH = 100;
 
 
 class Power
@@ -47,8 +47,10 @@ public:
 
 private:
 
-  BlockAvg current_average;
-  float average_buffer[BATT_VOLTAGE_BUFFER_LENGTH];
+  float current_avg_buffer[BATT_AVG_LENGTH];
+  float voltage_avg_buffer[BATT_AVG_LENGTH];
+  BlockAvg current_avg;
+  BlockAvg voltage_avg;
 
   SchmittTrigger schmitt_overvolt;
   SchmittTrigger schmitt_overcurrent;

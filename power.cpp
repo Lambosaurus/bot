@@ -10,16 +10,17 @@ Power::Power()
   schmitt_min_battery.Init(BATT_EXTERNAL_VOLTAGE, BATT_EXTERNAL_VOLTAGE + BATT_SCHMITT_VOLTAGE_WINDOW);
 
   // these are safe when low, so the window is on the low side
-  schmitt_overvolt.Init(BATT_MAX_VOLTAGE - BATT_SCHMITT_VOLTAGE_WINDOW, BATT_LOW_VOLTAGE);
+  schmitt_overvolt.Init(BATT_MAX_VOLTAGE - BATT_SCHMITT_VOLTAGE_WINDOW, BATT_MAX_VOLTAGE);
   schmitt_overcurrent.Init(BATT_MAX_CURRENT - BATT_SCHMITT_CURRENT_WINDOW, BATT_MAX_CURRENT);
+
+  current_avg.Init(current_avg_buffer, BATT_AVG_LENGTH);
+  voltage_avg.Init(voltage_avg_buffer, BATT_AVG_LENGTH);
 }
 
 void Power::Init()
 {
   pinMode(PIN_BATT_VOLTAGE, INPUT);
   pinMode(PIN_BATT_CURRENT, INPUT);
-
-  current_average.Init(average_buffer, BATT_VOLTAGE_BUFFER_LENGTH);
 }
 
 void Power::Update()
@@ -28,12 +29,21 @@ void Power::Update()
   // it may pay to put them through an averager
 
   float sense_voltage = AnalogReadVoltage(PIN_BATT_VOLTAGE);
-  voltage = sense_voltage * BATT_VOLTAGE_SENSE_MULTIPLIER;
+  voltage_avg.Add(sense_voltage * BATT_VOLTAGE_SENSE_MULTIPLIER);
+  voltage = voltage_avg.Average();
 
   float sense_current = AnalogReadVoltage(PIN_BATT_CURRENT);
+  current_avg.Add((sense_current - BATT_CURRENT_SENSE_OFFSET) * BATT_CURRENT_SENSE_MULTIPLIER);
   
-  current_average.Add( (sense_current - BATT_CURRENT_SENSE_OFFSET) * BATT_CURRENT_SENSE_MULTIPLIER );
-  current = current_average.Average();
+  if (external_power)
+  {
+    current = 0.0;
+  }
+  else
+  {
+    current = current_avg.Average();
+  }
+  
 
   schmitt_overvolt.Update(voltage);
   schmitt_overcurrent.Update(current);
@@ -45,6 +55,7 @@ void Power::Update()
 
   external_power = !schmitt_battery_present.high;
   low_battery = !schmitt_low_battery.high && !external_power;
+
 
   if (schmitt_overvolt.high) { error_overvolt = true; }
   if (schmitt_overcurrent.high) { error_overcurrent = true; }

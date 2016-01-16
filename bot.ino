@@ -21,13 +21,14 @@
 MinipackInput miniin;
 MinipackOutput miniout;
 
-bool green = false;
-
-void dbg()
+void SendResetMessage()
 {
-  green = !green;
-  digitalWrite(PIN_LED_GREEN, green);
+  miniout.NewPacket();
+  miniout.Pack(1, RESPONSE_RESET);
+  SERIAL_BLUE.write(miniout.EndPacket());
 }
+
+
 
 void ProcessComm(byte length)
 {
@@ -210,6 +211,8 @@ void setup()
   Serial.begin(115200);
 
   update_periodic.Init(UPDATE_PERIOD_MS);
+
+  SendResetMessage();
 }
 
 

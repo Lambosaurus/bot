@@ -14,7 +14,7 @@ enum CMD_KEYS {
   CMD_SOFT_ERR, // 1u
 
   CMD_GET_POWER, //
-
+  
   // master on should be enabled for commands below
   CMD_CHIRP, // 1u
   CMD_ARM, // 1u
@@ -24,20 +24,17 @@ enum CMD_KEYS {
 };
 
 
-
-// power reply should be 2u voltage, 2u current
-
+enum RESPONSE_KEYS {
+  RESPONSE_ACK, //
+  RESPONSE_RESET, //
+  RESPONSE_STATUS, // 1u
+  RESPONSE_GET_POWER, // f f
+};
 
 enum CMD_ARM_COMMANDS {
   CMD_ARM_OPEN,
   CMD_ARM_MAINTAIN,
   CMD_ARM_CLOSE,
-};
-
-enum RESPONSE_KEYS {
-  RESPONSE_ACK,
-  RESPONSE_STATUS, // 1u
-  RESPONSE_GET_POWER, // f f
 };
 
 enum RESPONSE_STATUS {

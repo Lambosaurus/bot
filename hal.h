@@ -7,6 +7,7 @@
 #include "drive.h"
 #include "power.h"
 #include "tweeter.h"
+#include "watchwolf.h"
 
 #include "button.h"
 #include "vmap.h"
@@ -37,6 +38,7 @@ public:
   bool Error();
   void ClearErrors();
 
+  void SoftReset();
   void SetSoftError(bool state);
 
 private:
@@ -50,8 +52,9 @@ private:
   Timer arm_timer;
 
   Button master_button;
-
   bool blue_connected;
+
+  Watchdog watchdog;
 };
 
 

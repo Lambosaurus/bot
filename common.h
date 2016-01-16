@@ -18,6 +18,9 @@ const float ADC_MAX_VOLTAGE = 3.3;
 float AnalogReadVoltage(byte pin);
 
 
+// ------------ // watchdog // ------------ //
+const unsigned long WATCHDOG_PERIOD = 100;
+
 
 // ------------ // tweeter // ------------ //
 const byte PIN_TWEETER = 19;
@@ -32,6 +35,8 @@ const bool TWEETER_ALARM_ON_ERROR = true;
 const bool ALLOW_SOFT_ERROR = true;
 const bool ALLOW_SOFT_MASTER_ON = true;
 const bool ALLOW_CLEAR_ERRORS = true;
+const bool ALLOW_SOFT_RESET = true;
+
 
 const unsigned int ARM_MAINTAIN_PERIOD_MS = 1000;
 const unsigned int UPDATE_PERIOD_MS = 5;

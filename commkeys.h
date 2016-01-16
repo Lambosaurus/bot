@@ -12,6 +12,7 @@ enum CMD_KEYS {
   CMD_GET_ERRS, //
   CMD_CLEAR_ERRS, // -
   CMD_SOFT_ERR, // 1u
+  CMD_SOFT_RESET, //
 
   CMD_GET_POWER, //
   

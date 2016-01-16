@@ -78,6 +78,16 @@ void ProcessComm(byte length)
     }
   }
 
+  else if (key == CMD_SOFT_RESET) {
+    if (length == 1)
+    {
+      if (!miniin.UnpackError())
+      {
+        hal.SoftReset();
+      }
+    }
+  }
+
   else if (key == CMD_STATUS) {
     if (length == 1)
     {
@@ -206,11 +216,11 @@ Periodic update_periodic;
 
 void setup()
 {
-  hal.Init();
-
   Serial.begin(115200);
 
   update_periodic.Init(UPDATE_PERIOD_MS);
+
+  hal.Init();
 
   SendResetMessage();
 }

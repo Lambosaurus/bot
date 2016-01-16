@@ -1,7 +1,6 @@
 #include "hal.h"
 
 
-
 HAL::HAL()
 {
 }
@@ -28,6 +27,9 @@ void HAL::Init()
 
   pinMode(PIN_MASTER_LED, OUTPUT);
   master_button.Init(PIN_MASTER_BUTTON);
+
+
+  watchdog.Init();
 }
 
 void HAL::SetSoftError(bool state)
@@ -82,6 +84,9 @@ bool HAL::Armed()
 
 void HAL::Update()
 {
+  watchdog.Kick(); // gotta do this at every 50ms, or we ded
+
+
   master_button.Update();
   if (master_button.changed && master_button.pressed)
   {
@@ -133,6 +138,14 @@ void HAL::ClearErrors()
     power.ClearError();
     tweeter.ClearError();
     soft_error = false;
+  }
+}
+
+void HAL::SoftReset()
+{
+  if (ALLOW_SOFT_RESET)
+  {
+    watchdog.ForceReset();
   }
 }
 

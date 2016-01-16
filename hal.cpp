@@ -84,7 +84,7 @@ bool HAL::Armed()
 
 void HAL::Update()
 {
-  watchdog.Kick(); // gotta do this at every 50ms, or we ded
+  watchdog.Kick(); // gotta do this at every 100ms, or we ded
 
 
   master_button.Update();

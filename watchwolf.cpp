@@ -51,6 +51,9 @@ void Watchdog::Kick()
 
 void Watchdog::ForceReset()
 {
-  watchdog_flag = false;
-  while (1); // now... we wait..
+  if (ALLOW_SOFT_RESET) // an additional layer of protection here
+  {
+    watchdog_flag = false;
+    while (1); // now... we wait..
+  }
 }

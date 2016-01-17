@@ -5,9 +5,9 @@
 Power::Power()
 {
   // these are safe when high, so the window is on the high side
-  schmitt_battery_present.Init(BATT_MIN_VOLTAGE, BATT_MIN_VOLTAGE + BATT_SCHMITT_VOLTAGE_WINDOW);
+  schmitt_min_battery.Init(BATT_MIN_VOLTAGE, BATT_MIN_VOLTAGE + BATT_SCHMITT_VOLTAGE_WINDOW);
   schmitt_low_battery.Init(BATT_LOW_VOLTAGE, BATT_LOW_VOLTAGE + BATT_SCHMITT_VOLTAGE_WINDOW);
-  schmitt_min_battery.Init(BATT_EXTERNAL_VOLTAGE, BATT_EXTERNAL_VOLTAGE + BATT_SCHMITT_VOLTAGE_WINDOW);
+  schmitt_battery_present.Init(BATT_EXTERNAL_VOLTAGE, BATT_EXTERNAL_VOLTAGE + BATT_SCHMITT_VOLTAGE_WINDOW);
 
   // these are safe when low, so the window is on the low side
   schmitt_overvolt.Init(BATT_MAX_VOLTAGE - BATT_SCHMITT_VOLTAGE_WINDOW, BATT_MAX_VOLTAGE);
